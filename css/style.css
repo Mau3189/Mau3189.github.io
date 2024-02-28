@@ -368,17 +368,18 @@ textarea {
 
 h1 {
 	color: #01b1ed;
+    display: none;
 }
 
 body {
 	background-color: #01b1ed;
-	margin: auto;
+/*	margin: auto;*/
 }
 
 img {
-    width:100%;
-    max-width:1440px;
+    width:70%;
+/*    max-width:1440px;
     position:absolute;
     top:0; left:0; right:0; bottom:0;
     margin:auto;
-}
+*/}
