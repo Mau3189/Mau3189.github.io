@@ -61,7 +61,5 @@ function checkHitBox(){
 function pickColor(){
     r = Math.floor(Math.random() * 4);
     src = sources[r];
-    console.log(r);
-    console.log(src);
     dvd.img.src = sources[r];
 }
