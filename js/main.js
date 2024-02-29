@@ -1,65 +1,78 @@
-let speed = 40;
-let scale = 0.30; // Image scale (I work on 1080p monitor)
-let canvas;
-let ctx;
-let logoColor;
-let sources = ['./img/fl-vanilla.webp', './img/fl-choco.webp', './img/fl-mm.webp', './img/fl-straw.webp'];
+const body = document.querySelector('body')
+const label = document.querySelector('#fl')
 
-let dvd = {
-    x: 200,
-    y: 300,
-    xspeed: 10,
-    yspeed: 10,
-    img: new Image()
-};
+let colors = ['./img/fl-vanilla.webp', './img/fl-choco.webp', './img/fl-mm.webp', './img/fl-straw.webp']
 
-(function main(){
-    canvas = document.getElementById("tv-screen");
-    ctx = canvas.getContext("2d");
-    dvd.img.src = './img/fl-vanilla.webp';
+let FPS = 60
 
-    //Draw the "tv screen"
-    canvas.width  = window.innerWidth;
-    canvas.height = window.innerHeight;
+let width
+  , height
+  , velocityX = 1
+  , velocityY = 1
+  , pause = true
+  , previousColor = 0
+;
 
-    pickColor();
-    update();
-})();
+setInterval(() => {
+  if (pause) return;
 
-function update() {
-    setTimeout(() => {
-        //Draw the canvas background
-        ctx.fillStyle = '#01b1ed';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        //Draw DVD Logo and his background
-        ctx.fillStyle = logoColor;
-        ctx.fillRect(dvd.x, dvd.y, dvd.img.width*scale, dvd.img.height*scale);
-        ctx.drawImage(dvd.img, dvd.x, dvd.y, dvd.img.width*scale, dvd.img.height*scale);
-        //Move the logo
-        dvd.x+=dvd.xspeed;
-        dvd.y+=dvd.yspeed;
-        //Check for collision 
-        checkHitBox();
-        update();   
-    }, speed)
+  let rect = label.getBoundingClientRect()
+
+  let left = rect.x
+  let top = rect.y
+
+  if (left + rect.width >= width || left <= 0) {
+    velocityX = -velocityX
+    let randomColor = getRandomColor()
+    label.src = randomColor
+  }
+  if (top + rect.height >= height || top <= 0) {
+    velocityY = -velocityY
+    let randomColor = getRandomColor()
+    label.src = randomColor
+  }
+
+  label.style.left = rect.x + velocityX + 'px'
+  label.style.top = rect.y + velocityY + 'px'
+}, 1000 / FPS)
+
+
+const reset = () => {
+  width =
+    window.innerWidth ||
+    document.documentElement.clientWidth ||
+    document.body.clientWidth
+  ;
+
+  height =
+    window.innerHeight ||
+    document.documentElement.clientHeight ||
+    document.body.clientHeight
+  ;
+
+  pause =
+    width <= label.getBoundingClientRect().width ||
+    height <= label.getBoundingClientRect().height
+  ;
+
+  label.style.left = 'calc(15vw)'
+  label.style.top = 'calc(15vh)'
+  label.src = colors[0]
 }
 
-//Check for border collision
-function checkHitBox(){
-    if(dvd.x+dvd.img.width*scale >= canvas.width || dvd.x <= 0){
-        dvd.xspeed *= -1;
-        pickColor();
-    }
-        
-    if(dvd.y+dvd.img.height*scale >= canvas.height || dvd.y <= 0){
-        dvd.yspeed *= -1;
-        pickColor();
-    }    
+
+const getRandomColor = () => {
+  let currentColor = -1
+  
+  do {
+    currentColor = Math.floor(Math.random() * colors.length);
+  } while (previousColor == currentColor);
+  
+  previousColor = currentColor
+  
+  return colors[currentColor]
 }
 
-//Pick a random color in RGB format
-function pickColor(){
-    r = Math.floor(Math.random() * 4);
-    src = sources[r];
-    dvd.img.src = sources[r];
-}
+reset()
+
+window.addEventListener('resize', reset, true)
