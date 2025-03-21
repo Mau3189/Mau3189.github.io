@@ -1,0 +1,29 @@
+.app-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+table {
+    border-collapse: separate;
+    border-spacing: 0;
+    width: 100%;
+}
+
+th, td {
+    padding: 0.5rem;
+}
+
+th {
+    background-color: #f3f4f6;
+    font-weight: 600;
+    text-align: left;
+}
+
+td {
+    border-bottom: 1px solid #e5e7eb;
+}
+
+button {
+    cursor: pointer;
+}
