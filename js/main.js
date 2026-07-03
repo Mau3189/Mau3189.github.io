@@ -8,6 +8,15 @@ const IMAGES = [
   './img/fl-straw.webp',
 ];
 
+img.addEventListener('load', () => {
+  const r = wrapper.getBoundingClientRect();
+  elW = r.width;
+  elH = r.height;
+  x = Math.min(x, winW - elW);
+  y = Math.min(y, winH - elH);
+});
+
+
 // Physics state — tracked in JS, never read from the DOM each frame
 let x = 0;
 let y = 0;

@@ -28,31 +28,20 @@ h1 {
   white-space: nowrap;
 }
 
-/* ── Bouncing element ───────────────────────────────────────────────────────── */
-
-/*
- * KEY FIX: All images bounce inside a fixed-size square wrapper.
- * No matter which image is displayed, the bounding box is always the same,
- * so every bounce and transition looks consistent.
- *
- * vmin keeps it proportional on both portrait and landscape screens.
- * Adjust the percentage to taste.
- */
 #fl-wrapper {
-  position: fixed;   /* Fixed so viewport changes (mobile chrome bar) don't affect it */
+  position: fixed;
   top: 0;
   left: 0;
-  width: 22vmin;
   height: 22vmin;
+  width: auto;          /* was: width: 22vmin */
   transform-origin: top left;
-  will-change: transform; /* hint compositor to keep this on its own layer */
+  will-change: transform;
 }
 
 #fl {
   display: block;
-  width: 100%;
   height: 100%;
-  object-fit: contain; /* fills the square while preserving each image's aspect ratio */
+  width: auto;          /* was: width: 100%; object-fit: contain */
   pointer-events: none;
   user-select: none;
   -webkit-user-drag: none;
